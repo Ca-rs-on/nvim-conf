@@ -1,0 +1,14 @@
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("n", "<leader>bn", function() vim.cmd.sbnext() end)
+vim.keymap.set("n", "<leader>bN", function() vim.cmd.sbNext() end)
+vim.keymap.set("n", "<leader>ev", function()
+  vim.cmd.edit(vim.fn.stdpath("config") .. "/init.lua")
+end)
+
+-- System clipboard yank/paste.
+vim.keymap.set("x", "<leader>y", '"+y', { desc = "Yank selection to system clipboard" })
+vim.keymap.set("x", "<leader>Y", '"+d', { desc = "Cut selection to system clipboard" })
+vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+
+-- Toggle comment on the visual selection (uses built-in `gc` + commentstring).
+vim.keymap.set("x", "<leader>//", "gc", { remap = true, desc = "Toggle comment on selection" })
