@@ -1,5 +1,29 @@
 {
   "plugins": {
+    "cmp-buffer": {
+      "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
+      "src": "https://github.com/hrsh7th/cmp-buffer"
+    },
+    "cmp-cmdline": {
+      "rev": "d126061b624e0af6c3a556428712dd4d4194ec6d",
+      "src": "https://github.com/hrsh7th/cmp-cmdline"
+    },
+    "cmp-nvim-lsp": {
+      "rev": "cbc7b02bb99fae35cb42f514762b89b5126651ef",
+      "src": "https://github.com/hrsh7th/cmp-nvim-lsp"
+    },
+    "cmp-path": {
+      "rev": "c642487086dbd9a93160e1679a1327be111cbc25",
+      "src": "https://github.com/hrsh7th/cmp-path"
+    },
+    "nvim-cmp": {
+      "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
+      "src": "https://github.com/hrsh7th/nvim-cmp"
+    },
+    "nvim-lspconfig": {
+      "rev": "3371bf298c1f56efc26771ee961f461176958fb5",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
     "nvim-surround": {
       "rev": "8b47db616ef658b8fc27e61db2896aa2f40134de",
       "src": "https://github.com/kylechui/nvim-surround"
@@ -15,6 +39,10 @@
     "telescope.nvim": {
       "rev": "9377230aa5305d9e9aca4ed8dadf1070fb4aa9fc",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
+    },
+    "zig.vim": {
+      "rev": "29f7a9b8a4e33f936b803de0b713683ad687a6c3",
+      "src": "https://codeberg.org/ziglang/zig.vim"
     }
   }
 }

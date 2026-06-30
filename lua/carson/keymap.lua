@@ -12,3 +12,5 @@ vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system cli
 
 -- Toggle comment on the visual selection (uses built-in `gc` + commentstring).
 vim.keymap.set("x", "<leader>//", "gc", { remap = true, desc = "Toggle comment on selection" })
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'View line diagnostics' })
+
