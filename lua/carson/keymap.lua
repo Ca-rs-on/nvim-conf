@@ -1,6 +1,4 @@
 vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("n", "<leader>bn", function() vim.cmd.sbnext() end)
-vim.keymap.set("n", "<leader>bN", function() vim.cmd.sbNext() end)
 vim.keymap.set("n", "<leader>ev", function()
   vim.cmd.edit(vim.fn.stdpath("config") .. "/lua/carson/keymap.lua")
 end)
@@ -24,3 +22,10 @@ vim.keymap.set('n', '<leader>cl', function()
 
 vim.keymap.set('n', 'n', 'nzz', { remap = true } )
 vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
+
+-- Visual mode (move selection)
+vim.keymap.set("n", "<A-j>", ":move +1<CR>==", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-k>", ":move -2<CR>==", { noremap = true, silent = true })
+
+vim.keymap.set("v", "<A-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("v", "<A-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
