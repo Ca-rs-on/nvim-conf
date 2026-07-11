@@ -15,6 +15,8 @@ cmp.setup({
 	},
 	source = cmp.config.sources({
 		{ name = "nvim_lsp" },
+		{ name = "zls" },
+		{ name = "intelephense" }
 	}),
 	mapping = cmp.mapping.preset.insert({
 		['<C-b>'] = cmp.mapping.scroll_docs(-4),

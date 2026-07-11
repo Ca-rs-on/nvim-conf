@@ -8,5 +8,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			client.server_capabilities.completionProvider.triggerCharacters = chars
 			vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
+		vim.lsp.on_type_formatting.enable(true, { client_id = args.data.client_id })
 	end,
 })
