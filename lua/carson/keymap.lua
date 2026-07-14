@@ -23,6 +23,10 @@ vim.keymap.set('n', '<leader>cl', function()
 vim.keymap.set('n', 'n', 'nzz', { remap = true } )
 vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
 
+vim.keymap.set('n', ']c', ']czz', { remap = true } )
+vim.keymap.set('n', '[c', '[czz', { remap = true } )
+
+
 -- Visual mode (move selection)
 vim.keymap.set("n", "<A-j>", ":move +1<CR>==", { noremap = true, silent = true })
 vim.keymap.set("n", "<A-k>", ":move -2<CR>==", { noremap = true, silent = true })

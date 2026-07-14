@@ -1,5 +1,6 @@
 vim.pack.add({
   { src = "https://github.com/neogitorg/neogit" },
+  { src = "https://github.com/sindrets/diffview.nvim" }
 })
 
 local neogit = require("neogit")
