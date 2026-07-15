@@ -5,7 +5,7 @@ vim.lsp.config("intelephense", {
   settings = {
     intelephense = {
       -- e.g. files = { maxSize = 5000000 },  -- bump for large frameworks
-      -- licenceKey = "…",  -- only if you have premium (see below)
+      licenceKey = os.getenv("INTELEPHENSE_API_KEY"),  -- only if you have premium (see below)
     },
   },
 })
