@@ -1,5 +1,9 @@
 require("lang.php")
 require("lang.zig")
+require("lang.html")
+require("lang.css")
+require("lang.json")
+require("lang.eslint")
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
