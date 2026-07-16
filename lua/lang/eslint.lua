@@ -1,6 +1,6 @@
 vim.lsp.config('eslint', {
   cmd = { 'vscode-eslint-language-server', '--stdio' },
-  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'js' },
+  filetypes = { 'ts', 'vue', 'js' },
   root_markers = {
     'eslint.config.js', 'eslint.config.mjs', 'eslint.config.ts',
     '.eslintrc', '.eslintrc.js', '.eslintrc.json', 'package.json', '.git',
