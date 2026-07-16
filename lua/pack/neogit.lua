@@ -103,7 +103,8 @@ require('gitsigns').setup {
 		end
 		map("]c", function() gs.nav_hunk("next") end, "Next hunk")
 		map("[c", function() gs.nav_hunk("prev") end, "Prev hunk")
-		map("<leader>hr", gs.reset_hunk, "Reset hunk")
-		map("<leader>hb", function() gs.blame_line({ full = true }) end, "Blame line")
+		map("<leader>gp", gs.preview_hunk, "Preview hunk")
+		map("<leader>gr", gs.reset_hunk, "Reset hunk")
+		map("<leader>gb", gs.blame, "Blame line")
 	end,
 }
