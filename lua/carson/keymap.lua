@@ -21,7 +21,7 @@ vim.keymap.set('n', '<leader>cl', function()
 	vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled()) 
 	vim.notify(string.format("Code Lens Enabled? %s", vim.lsp.codelens.is_enabled({ bufnr = 0 })))
 end )
-
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "List available Code Actions" })
 vim.keymap.set('n', 'n', 'nzz', { remap = true } )
 vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
 
