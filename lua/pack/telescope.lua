@@ -14,6 +14,7 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' 
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help' })
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope oldfiles' })
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
+vim.keymap.set('n', '<leader>fr', builtin.keymaps, { desc = 'Telescope Registers' })
 vim.keymap.set('n', '<C-b>', function() builtin.lsp_references({ jump_type = "tab drop", include_declaration = false }) end, { desc = 'Find references' })
 vim.keymap.set('n', '<C-f>', builtin.current_buffer_fuzzy_find, { desc = 'Search file' })
 
