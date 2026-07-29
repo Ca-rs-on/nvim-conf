@@ -1,6 +1,17 @@
+-- CAPS is mapped from zshrc
 vim.keymap.set("i", "jk", "<ESC>")
+-- conf stuff
 vim.keymap.set("n", "<leader>ev", function()
 	vim.cmd.edit(vim.fn.stdpath("config") .. "/lua/carson/keymap.lua")
+end)
+vim.keymap.set("n", "<leader>ez", function()
+	vim.cmd.edit("~/.zshrc")
+end)
+vim.keymap.set("n", "<leader>ei", function()
+	vim.cmd.edit("~/.config/i3/config")
+end)
+vim.keymap.set("n", "<leader>es", function()
+	vim.cmd.edit("~/.config/i3status/config")
 end)
 vim.keymap.set("n", "<leader>ex", "<cmd>Ex<cr>", { desc = "Open netrw" })
 
@@ -11,7 +22,6 @@ vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system cli
 vim.keymap.set("t", "<C-\\><C-\\>", "<C-\\><C-n><C-w><C-w>", { desc = "Escape Terminal and switch tabs" })
 vim.keymap.set("n", "<leader>ai", "<cmd>60vsplit | term claude<cr>i", { desc = "split and open claude"})
 
-vim.keymap.set("x", "<leader>//", "gc", { remap = true, desc = "Toggle comment on selection" })
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'View line diagnostics' })
 vim.keymap.set('n', '<leader>ch', function() 
@@ -29,6 +39,7 @@ vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
 vim.keymap.set('n', ']c', ']czz', { remap = true } )
 vim.keymap.set('n', '[c', '[czz', { remap = true } )
 
+vim.keymap.set('t', '<ESC><ESC>', "<C-\\><C-n>", { desc = 'Easy Escape from terminal' }) 
 
 -- Visual mode (move selection)
 vim.keymap.set("n", "<A-j>", ":move +1<CR>==", { noremap = true, silent = true })
