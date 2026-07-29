@@ -4,4 +4,4 @@ require("pack.nvim-surround")
 require("pack.nvim-treesitter")
 require("pack.autocmp")
 require("pack.neogit")
-
+require("pack.review").setup()
