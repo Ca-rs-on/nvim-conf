@@ -1,0 +1,2 @@
+in the php ftplugin add in a <leader>tc[f|c] that uses treesitter to jump up to the closest function|class and run the test.
+set up a autogroup for rsync development
