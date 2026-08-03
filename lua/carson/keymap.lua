@@ -20,7 +20,6 @@ vim.keymap.set("x", "<leader>y", '"+y', { desc = "Yank selection to system clipb
 vim.keymap.set("x", "<leader>Y", '"+d', { desc = "Cut selection to system clipboard" })
 vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set("t", "<C-\\><C-\\>", "<C-\\><C-n><C-w><C-w>", { desc = "Escape Terminal and switch tabs" })
-vim.keymap.set("n", "<leader>ai", "<cmd>60vsplit | term claude<cr>i", { desc = "split and open claude"})
 
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'View line diagnostics' })
