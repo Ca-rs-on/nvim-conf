@@ -12,10 +12,7 @@ local on_exit = function()
 	state.claude.win = nil
 end
 local toggle = function()
-	local width = math.floor(vim.o.columns / 2)
-	local height = vim.o.lines
-	local opts = { relative= 'editor', width=width, height=height, col=0, row=0, anchor= 'NE', title='Claude', border = { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║"  } }
-
+	local opts = { relative= 'editor', width=vim.o.columns, height=vim.o.lines, col=0, row=0, title='Claude', border = { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║"  } }
 	if not state.claude.buf or state.claude.claude == 0 then
 		state.claude.buf = vim.api.nvim_create_buf(false, true)
 		state.claude.win = vim.api.nvim_open_win(state.claude.buf, true, opts)

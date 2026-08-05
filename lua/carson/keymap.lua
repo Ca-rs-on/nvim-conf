@@ -1,6 +1,4 @@
 -- CAPS is mapped from zshrc
-vim.keymap.set("i", "jk", "<ESC>")
--- conf stuff
 vim.keymap.set("n", "<leader>ev", function()
 	vim.cmd.edit(vim.fn.stdpath("config") .. "/lua/carson/keymap.lua")
 end)
