@@ -9,8 +9,7 @@ require('telescope').setup({
 		-- merged into the defaults, not a replacement for them
 		mappings = {
 			-- insert mode already has <Esc> and <C-c> closing the picker
-			n = { ['qq'] = actions.close },
-		},
+			n = { ['qq'] = actions.close }, },
 	},
 })
 
@@ -52,10 +51,10 @@ hl('TelescopePreviewLine',  { bg = wood.ember })
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>faf', function()
-	builtin.find_files( { no_ignore="true" } )
+	builtin.find_files( { no_ignore=true, hidden=true } )
 end, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fag', function()
-	builtin.live_grep( { no_ignore="true" } )
+	builtin.live_grep( { no_ignore=true, hidden=true } )
 end, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set({ 'n', 'v' }, '<leader>fs', builtin.grep_string, { desc = 'Search under cursor' })

@@ -21,8 +21,6 @@ vim.keymap.set("x", "<leader>Y", '"+d', { desc = "Cut selection to system clipbo
 vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set("t", "<C-\\><C-\\>", "<C-\\><C-n><C-w><C-w>", { desc = "Escape Terminal and switch tabs" })
 
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'View line diagnostics' })
 vim.keymap.set('n', '<leader>ch', function() 
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 	vim.notify(string.format("Inlay Hint Enabled? %s", vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })))
@@ -31,7 +29,6 @@ vim.keymap.set('n', '<leader>cl', function()
 	vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled()) 
 	vim.notify(string.format("Code Lens Enabled? %s", vim.lsp.codelens.is_enabled({ bufnr = 0 })))
 end )
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "List available Code Actions" })
 vim.keymap.set('n', 'n', 'nzz', { remap = true } )
 vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
 
@@ -54,3 +51,6 @@ vim.keymap.set("n", "<leader>st", function()
 	vim.cmd.wincmd("J")
 	vim.api.nvim_win_set_height(0,15)
 end)
+
+vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>")
+vim.keymap.set("n", "<leader>qw", "<cmd>wq<cr>")
