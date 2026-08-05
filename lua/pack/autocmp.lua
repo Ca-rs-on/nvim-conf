@@ -10,7 +10,8 @@ local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.snippet.expand(args.body)
+			local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
+			insert({ body = args.body })
 		end,
 	},
 	source = cmp.config.sources({
@@ -27,8 +28,8 @@ cmp.setup({
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif vim.snippet.active({ direction = 1 }) then
-				vim.snippet.jump(1)
+			elseif MiniSnippets.session.get() ~= nil then
+				MiniSnippets.session.jump('next')
 			else
 				fallback()
 			end
@@ -36,8 +37,8 @@ cmp.setup({
 		['<S-Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif vim.snippet.active({ direction = -1 }) then
-				vim.snippet.jump(1)
+			elseif MiniSnippets.session.get() ~= nil then
+				MiniSnippets.session.jump('prev')
 			else
 				fallback()
 			end

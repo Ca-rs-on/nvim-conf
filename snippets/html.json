@@ -1,0 +1,101 @@
+{
+	"html5 boilerplate": {
+		"prefix": "!",
+		"description": "HTML5 boilerplate (emmet !)",
+		"body": [
+			"<!DOCTYPE html>",
+			"<html lang=\"${1:en}\">",
+			"<head>",
+			"\t<meta charset=\"UTF-8\">",
+			"\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+			"\t<title>${2:Document}</title>",
+			"</head>",
+			"<body>",
+			"\t$0",
+			"</body>",
+			"</html>"
+		]
+	},
+	"div": {
+		"prefix": "div",
+		"body": ["<div>", "\t$0", "</div>"]
+	},
+	"div with class": {
+		"prefix": ".",
+		"description": "emmet .class",
+		"body": ["<div class=\"$1\">", "\t$0", "</div>"]
+	},
+	"div with id": {
+		"prefix": "#",
+		"description": "emmet #id",
+		"body": ["<div id=\"$1\">", "\t$0", "</div>"]
+	},
+	"anchor": {
+		"prefix": "a",
+		"body": "<a href=\"$1\">$0</a>"
+	},
+	"image": {
+		"prefix": "img",
+		"body": "<img src=\"$1\" alt=\"$2\">"
+	},
+	"paragraph": {
+		"prefix": "p",
+		"body": "<p>$0</p>"
+	},
+	"span": {
+		"prefix": "span",
+		"body": "<span>$0</span>"
+	},
+	"unordered list": {
+		"prefix": "ul",
+		"description": "emmet ul>li",
+		"body": ["<ul>", "\t<li>$0</li>", "</ul>"]
+	},
+	"ordered list": {
+		"prefix": "ol",
+		"description": "emmet ol>li",
+		"body": ["<ol>", "\t<li>$0</li>", "</ol>"]
+	},
+	"list item": {
+		"prefix": "li",
+		"body": "<li>$0</li>"
+	},
+	"button": {
+		"prefix": "btn",
+		"body": "<button type=\"${1:button}\">$0</button>"
+	},
+	"form": {
+		"prefix": "form",
+		"body": ["<form action=\"$1\" method=\"${2:post}\">", "\t$0", "</form>"]
+	},
+	"input": {
+		"prefix": "input",
+		"body": "<input type=\"${1:text}\" name=\"$2\">"
+	},
+	"label": {
+		"prefix": "label",
+		"body": "<label for=\"$1\">$0</label>"
+	},
+	"select": {
+		"prefix": "select",
+		"body": ["<select name=\"$1\">", "\t<option value=\"$2\">$0</option>", "</select>"]
+	},
+	"table": {
+		"prefix": "table",
+		"body": ["<table>", "\t<tr>", "\t\t<td>$0</td>", "\t</tr>", "</table>"]
+	},
+	"stylesheet link": {
+		"prefix": "link:css",
+		"description": "emmet link:css",
+		"body": "<link rel=\"stylesheet\" href=\"${1:style.css}\">"
+	},
+	"script src": {
+		"prefix": "script:src",
+		"description": "emmet script:src",
+		"body": "<script src=\"$1\"></script>"
+	},
+	"script": {
+		"prefix": "script",
+		"body": ["<script>", "\t$0", "</script>"]
+	}
+}

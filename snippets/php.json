@@ -1,0 +1,29 @@
+{
+	"curly brace block": {
+		"prefix": "{",
+		"description": "{ } with closing brace on its own line",
+		"body": [
+			"{",
+			"$0",
+			"}"
+		]
+	},
+	"square bracket block": {
+		"prefix": "[",
+		"description": "[ ] with closing bracket on its own line",
+		"body": [
+			"[",
+			"$0",
+			"]"
+		]
+	},
+	"parentheses block": {
+		"prefix": "(",
+		"description": "( ) with closing paren on its own line",
+		"body": [
+			"(",
+			"$0",
+			")"
+		]
+	}
+}
