@@ -12,6 +12,8 @@
 --
 -- Runtime kill switch: :RemoteSyncToggle (or :lua vim.g.remote_sync = false)
 -- Full sync: :RemoteSyncAll   (:RemoteSyncAll! also deletes remote extras)
+-- Dirty sync: :RemoteSyncModified — push every file git status reports as
+--   changed/added/untracked, and delete removed ones on the remote.
 -- Diff view: :RemoteSyncDiff [subdir]  — list files that differ / exist on
 --   only one side (! compares by checksum, slower). <CR> on a line diffsplits
 --   local vs remote, q closes the list.
@@ -107,6 +109,64 @@ function M.sync_all(delete)
       )
     end)
   end)
+end
+
+--- Sync only what git status reports: modified/added/untracked files are
+--- pushed, deleted ones are removed on the remote. Assumes M.opts.root is the
+--- repo root (porcelain paths are repo-root-relative).
+function M.sync_modified()
+  vim.system(
+    -- -z: NUL-separated, no quoting. --no-renames: a rename becomes D + A so
+    -- every record is a single path. -uall: list files inside untracked dirs.
+    { "git", "-C", M.opts.root, "status", "--porcelain", "-z", "--no-renames", "-uall" },
+    { text = true },
+    function(out)
+      vim.schedule(function()
+        if out.code ~= 0 then
+          vim.notify("git status failed: " .. (out.stderr or ""), vim.log.levels.ERROR)
+          return
+        end
+
+        local files = {}
+        for _, entry in ipairs(vim.split(out.stdout or "", "\0", { trimempty = true })) do
+          local rel = entry:sub(4) -- strip the two status chars + space
+          if rel ~= "" and not ignored(rel) then
+            files[#files + 1] = rel
+          end
+        end
+        if #files == 0 then
+          vim.notify("git status clean, nothing to sync")
+          return
+        end
+
+        -- --delete-missing-args turns list entries that no longer exist
+        -- locally (git D) into deletion requests on the remote.
+        local args = { "rsync", "-az", "--files-from=-", "--from0", "--delete-missing-args", "--info=stats1" }
+        for _, pat in ipairs(M.opts.exclude) do
+          table.insert(args, "--exclude=" .. pat)
+        end
+        vim.list_extend(args, {
+          M.opts.root .. "/",
+          ("%s:%s/"):format(M.opts.remote.host, M.opts.remote.path),
+        })
+
+        vim.notify(("syncing %d modified file(s)..."):format(#files))
+        vim.system(
+          args,
+          { text = true, stdin = table.concat(files, "\0") .. "\0" },
+          function(rout)
+            vim.schedule(function()
+              local ok = rout.code == 0
+              vim.notify(
+                ok and (rout.stdout or "sync complete") or ("sync failed: " .. (rout.stderr or "")),
+                ok and vim.log.levels.INFO or vim.log.levels.ERROR
+              )
+            end)
+          end
+        )
+      end)
+    end
+  )
 end
 
 -- ── remote diff ────────────────────────────────────────────────────────────
@@ -350,6 +410,10 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("RemoteSyncAll", function(cmd)
     M.sync_all(cmd.bang)
   end, { bang = true, desc = "Full project rsync (! also deletes remote extras)" })
+
+  vim.api.nvim_create_user_command("RemoteSyncModified", function()
+    M.sync_modified()
+  end, { desc = "Rsync files git status reports as dirty (deletes removed ones remotely)" })
 
   vim.api.nvim_create_user_command("RemoteSyncDiff", function(cmd)
     M.diff(cmd.args ~= "" and cmd.args or nil, cmd.bang)
