@@ -22,6 +22,12 @@ local M = {}
 
 local ns = vim.api.nvim_create_namespace("remote_dev")
 
+-- Deliberately not -a (-rlptgoD): the p/g/o bits mirror local perms, group,
+-- and owner onto the remote, which a web docroot we don't fully own rejects
+-- (chgrp: Operation not permitted). -O skips setting mtimes on dirs for the
+-- same reason. Content still transfers; the remote keeps its own ownership.
+local rsync_flags = "-rltzO"
+
 local defaults = {
   -- Local project root that maps onto remote.path. nil = cwd when setup runs.
   root = nil,
@@ -73,7 +79,7 @@ function M.push(abs)
   local src = ("%s/./%s"):format(M.opts.root, rel)
   local dest = ("%s:%s/"):format(M.opts.remote.host, M.opts.remote.path)
 
-  vim.system({ "rsync", "-azR", src, dest }, { text = true }, function(out)
+  vim.system({ "rsync", rsync_flags .. "R", src, dest }, { text = true }, function(out)
     -- on_exit runs in a fast event context; defer anything touching the UI.
     vim.schedule(function()
       if out.code ~= 0 then
@@ -87,7 +93,7 @@ function M.push(abs)
 end
 
 function M.sync_all(delete)
-  local args = { "rsync", "-az", "--info=stats1" }
+  local args = { "rsync", rsync_flags, "--info=stats1" }
   if delete then
     table.insert(args, "--delete")
   end
@@ -141,7 +147,7 @@ function M.sync_modified()
 
         -- --delete-missing-args turns list entries that no longer exist
         -- locally (git D) into deletion requests on the remote.
-        local args = { "rsync", "-az", "--files-from=-", "--from0", "--delete-missing-args", "--info=stats1" }
+        local args = { "rsync", rsync_flags, "--files-from=-", "--from0", "--delete-missing-args", "--info=stats1" }
         for _, pat in ipairs(M.opts.exclude) do
           table.insert(args, "--exclude=" .. pat)
         end
@@ -334,7 +340,7 @@ end
 --- @param subdir string|nil  limit the comparison to this project-relative dir
 --- @param checksum boolean   compare contents, not size+mtime (slower)
 function M.diff(subdir, checksum)
-  local args = { "rsync", checksum and "-aznc" or "-azn", "--delete", "--itemize-changes" }
+  local args = { "rsync", rsync_flags .. (checksum and "nc" or "n"), "--delete", "--itemize-changes" }
   for _, pat in ipairs(M.opts.exclude) do
     table.insert(args, "--exclude=" .. pat)
   end
