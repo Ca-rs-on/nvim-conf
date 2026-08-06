@@ -19,12 +19,12 @@ vim.keymap.set("x", "<leader>Y", '"+d', { desc = "Cut selection to system clipbo
 vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set("t", "<C-\\><C-\\>", "<C-\\><C-n><C-w><C-w>", { desc = "Escape Terminal and switch tabs" })
 
-vim.keymap.set('n', '<leader>ch', function() 
+vim.keymap.set('n', '<leader>ch', function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 	vim.notify(string.format("Inlay Hint Enabled? %s", vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })))
 end )
-vim.keymap.set('n', '<leader>cl', function() 
-	vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled()) 
+vim.keymap.set('n', '<leader>cl', function()
+	vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
 	vim.notify(string.format("Code Lens Enabled? %s", vim.lsp.codelens.is_enabled({ bufnr = 0 })))
 end )
 vim.keymap.set('n', 'n', 'nzz', { remap = true } )
@@ -32,8 +32,6 @@ vim.keymap.set('n', 'N', 'Nzz', { remap = true } )
 
 vim.keymap.set('n', ']c', ']czz', { remap = true } )
 vim.keymap.set('n', '[c', '[czz', { remap = true } )
-
-vim.keymap.set('t', '<ESC><ESC>', "<C-\\><C-n>", { desc = 'Easy Escape from terminal' }) 
 
 -- Visual mode (move selection)
 vim.keymap.set("n", "<A-j>", ":move +1<CR>==", { noremap = true, silent = true })
