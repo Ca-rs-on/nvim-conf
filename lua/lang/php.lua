@@ -7,10 +7,11 @@ vim.lsp.config("intelephense", {
 		intelephense = {
 			files = {
 				exclude = {
-					"**/tmp/phpstan/**",
+					"**/tmp/**",
 					"**/.git/**",
 					"**/vendor/**/{Tests,tests}/**",
 					"**/node_modules/**",
+					"**/templates/cached/**"
 				},
 			},
 		},
