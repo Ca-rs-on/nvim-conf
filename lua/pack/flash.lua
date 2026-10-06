@@ -19,16 +19,17 @@ local function matches_on_line(char, forward)
   return out, row
 end
 
-local function jump(key)
+-- Reads the target char, labels matches if there are several, and returns
+-- (char, n, cols) where cols[n] is the chosen 0-based column. nil = cancelled.
+local function pick(key)
   local ok, char = pcall(vim.fn.getcharstr)
   if not ok or char == "\27" then return end
 
   local forward = key == "f" or key == "t"
   local m, row = matches_on_line(char, forward)
-  if #m == 0 then return end
 
-  local n = 1
-  if #m > 1 then
+  local n = vim.v.count1
+  if vim.v.count == 0 and #m > 1 then
     local buf = vim.api.nvim_get_current_buf()
     for i, c in ipairs(m) do
       local lbl = labels:sub(i, i)
@@ -48,9 +49,34 @@ local function jump(key)
     if not n or n > #m then return end
   end
 
-  vim.api.nvim_feedkeys(n .. key .. char, "n", false)
+  return char, n, m
+end
+
+-- Normal / operator-pending: <expr> mapping that returns e.g. "3fx", so the
+-- builtin motion does the work (operators like dtx, dot-repeat and ;/, intact).
+local function jump_expr(key)
+  local char, n = pick(key)
+  if not char then return "" end
+  if vim.v.count > 0 then return key .. char end -- typed count is still pending
+  return n .. key .. char
+end
+
+-- Visual: labels don't render while an <expr> mapping is evaluating there, so
+-- run as a normal callback and move the cursor ourselves (extends the selection).
+local function jump_visual(key)
+  local char, n, m = pick(key)
+  if not char or not m[n] then return end
+
+  local forward = key == "f" or key == "t"
+  local till = key == "t" or key == "T"
+  local col = m[n]
+  if till then col = forward and col - 1 or col + 1 end
+
+  vim.fn.setcharsearch({ char = char, forward = forward and 1 or 0, ["until"] = till and 1 or 0 })
+  vim.api.nvim_win_set_cursor(0, { vim.fn.line("."), col })
 end
 
 for _, k in ipairs({ "f", "F", "t", "T" }) do
-  vim.keymap.set({ "n", "x", "o" }, k, function() jump(k) end)
+  vim.keymap.set({ "n", "o" }, k, function() return jump_expr(k) end, { expr = true })
+  vim.keymap.set("x", k, function() jump_visual(k) end)
 end
