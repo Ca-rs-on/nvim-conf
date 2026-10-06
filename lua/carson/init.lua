@@ -18,3 +18,11 @@ vim.api.nvim_create_user_command("ProjCwd", function()
 	end
 	vim.cmd.cd(root)
 end, { desc = "change cwd to project root" })
+
+-- like vim's :DiffOrig: diff the buffer against the file on disk (:diffoff! to end)
+vim.api.nvim_create_user_command("DiffOrig", function()
+	local ft = vim.bo.filetype
+	vim.cmd("vert new | set buftype=nofile bufhidden=wipe noswapfile | read ++edit # | 0d_")
+	vim.bo.filetype = ft
+	vim.cmd("diffthis | wincmd p | diffthis")
+end, { desc = "diff buffer against file on disk" })
