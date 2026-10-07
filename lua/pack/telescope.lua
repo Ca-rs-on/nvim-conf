@@ -49,20 +49,75 @@ hl('TelescopePreviewMatch', { fg = wood.ember, bg = wood.honey })
 hl('TelescopePreviewLine',  { bg = wood.ember })
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ hidden = true }) end, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>faf', function()
-	builtin.find_files( { no_ignore=true, hidden=true } )
-end, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fag', function()
-	builtin.live_grep( { no_ignore=true, hidden=true } )
-end, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set({ 'n', 'v' }, '<leader>fs', builtin.grep_string, { desc = 'Search under cursor' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help' })
-vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope oldfiles' })
-vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
-vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = 'Telescope Registers' })
+local action_state = require('telescope.actions.state')
+
+-- with(defaults) -> picker fn that merges cycle opts over the defaults
+local function with(picker, defaults)
+	return function(opts) picker(vim.tbl_extend('force', defaults or {}, opts)) end
+end
+
+-- <leader>f* pickers, in the order <C-h>/<C-l> cycles through them
+local cycle = {
+	{ key = 'ff',  desc = 'Find files',             fn = with(builtin.find_files, { hidden = true }) },
+	{ key = 'faf', desc = 'Find all files',         fn = with(builtin.find_files, { no_ignore = true, hidden = true }) },
+	{ key = 'fg',  desc = 'Live grep',              fn = with(builtin.live_grep) },
+	{ key = 'fag', desc = 'Live grep all files',    fn = with(builtin.live_grep, { no_ignore = true, hidden = true }) },
+	{ key = 'fs',  desc = 'Search under cursor',    fn = with(builtin.grep_string), mode = { 'n', 'v' } },
+	{ key = 'fm',  desc = 'Functions in file',      fn = with(builtin.lsp_document_symbols, { symbols = { 'function', 'method' } }),
+		-- needs a language server, else telescope just errors and the cycle dead-ends
+		usable = function() return #vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/documentSymbol' }) > 0 end },
+	{ key = 'fb',  desc = 'Buffers',                fn = with(builtin.buffers) },
+	{ key = 'fo',  desc = 'Oldfiles',               fn = with(builtin.oldfiles) },
+	{ key = 'fh',  desc = 'Help',                   fn = with(builtin.help_tags) },
+	{ key = 'fk',  desc = 'Keymaps',                fn = with(builtin.keymaps) },
+	{ key = 'fr',  desc = 'Registers',              fn = with(builtin.registers) },
+}
+
+local function usable(p) return not p.usable or p.usable() end
+
+local open
+-- close this picker and open its next usable neighbour, carrying the typed prompt over
+local function step(prompt_bufnr, i, dir)
+	local text = action_state.get_current_line()
+	actions.close(prompt_bufnr) -- back in the original buffer, so usable() checks that
+	local n = i
+	for _ = 1, #cycle do
+		n = (n - 1 + dir) % #cycle + 1
+		if usable(cycle[n]) then break end
+	end
+	open(n, text)
+end
+
+-- "ff faf [fg] fag ..." so you can see where <C-h>/<C-l> will land
+local function tabs(i)
+	local keys = {}
+	for j, p in ipairs(cycle) do
+		if j == i then
+			keys[#keys + 1] = '[' .. p.key .. ']'
+		elseif usable(p) then
+			keys[#keys + 1] = p.key
+		end
+	end
+	return table.concat(keys, ' ')
+end
+
+open = function(i, text)
+	local p = cycle[i]
+	p.fn({
+		prompt_title = ('%s  %s'):format(p.desc, tabs(i)),
+		default_text = text,
+		attach_mappings = function(_, map)
+			map({ 'i', 'n' }, '<C-l>', function(bufnr) step(bufnr, i, 1) end)
+			map({ 'i', 'n' }, '<C-h>', function(bufnr) step(bufnr, i, -1) end)
+			return true
+		end,
+	})
+end
+
+for i, p in ipairs(cycle) do
+	vim.keymap.set(p.mode or 'n', '<leader>' .. p.key, function() open(i) end, { desc = 'Telescope ' .. p.desc:lower() })
+end
+
 vim.keymap.set('n', '<C-b>', function() builtin.lsp_references({ jump_type = "tab drop", include_declaration = false }) end, { desc = 'Find references' })
 
 vim.keymap.set('n', 'gd', function()
