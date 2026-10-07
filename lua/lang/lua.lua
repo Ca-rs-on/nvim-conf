@@ -6,6 +6,8 @@ vim.lsp.config('lua_ls', {
 		Lua = {
 			runtime = { version = 'LuaJIT' },
 			diagnostics = { globals = { 'vim' } },
+			hint = { enable = true, semicolon = 'Disable' },
+			codeLens = { enable = true },
 		},
 	},
 })

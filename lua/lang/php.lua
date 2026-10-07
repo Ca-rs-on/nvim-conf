@@ -5,6 +5,7 @@ vim.lsp.config("intelephense", {
 	init_options = { licenceKey = os.getenv("INTELEPHENSE_PRO_KEY") },
 	settings = {
 		intelephense = {
+			telemetry = { enabled = false },
 			files = {
 				exclude = {
 					"**/tmp/**",
