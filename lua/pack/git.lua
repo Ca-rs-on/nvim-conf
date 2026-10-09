@@ -1,12 +1,20 @@
 vim.pack.add({
-	{ src = "https://github.com/neogitorg/neogit" },
+	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/sindrets/diffview.nvim" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" }
 })
 
-local neogit = require("neogit")
--- You can map this to a key
-vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open Neogit UI" })
+-- fugitive status toggle: close the :Git window if one is open, else open it
+vim.keymap.set("n", "<leader>gg", function()
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "fugitive" then
+			vim.api.nvim_win_close(win, false)
+			return
+		end
+	end
+	vim.cmd("Git")
+end, { desc = "Fugitive status toggle" })
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { desc = "Fugitive blame" })
 vim.keymap.set("n", "<leader>gd", function()
 	local view = require("diffview.lib").get_current_view()
 	if view then
@@ -105,6 +113,5 @@ require('gitsigns').setup {
 		map("[c", function() gs.nav_hunk("prev") end, "Prev hunk")
 		map("<leader>gp", gs.preview_hunk, "Preview hunk")
 		map("<leader>gr", gs.reset_hunk, "Reset hunk")
-		map("<leader>gb", gs.blame, "Blame line")
 	end,
 }
