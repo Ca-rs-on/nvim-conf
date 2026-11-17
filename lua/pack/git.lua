@@ -113,5 +113,6 @@ require('gitsigns').setup {
 		map("[c", function() gs.nav_hunk("prev") end, "Prev hunk")
 		map("<leader>gp", gs.preview_hunk, "Preview hunk")
 		map("<leader>gr", gs.reset_hunk, "Reset hunk")
+		map("<leader>gs", gs.stage_hunk, "Stage hunk")
 	end,
 }
