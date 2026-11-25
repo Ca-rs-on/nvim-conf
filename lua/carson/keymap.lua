@@ -50,3 +50,4 @@ end)
 
 vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>")
 vim.keymap.set("n", "<leader>qw", "<cmd>wq<cr>")
+vim.keymap.set("i", "{<CR>", "{<CR>}<C-o>O")
