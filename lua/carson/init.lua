@@ -4,7 +4,6 @@ vim.cmd('colorscheme catppuccin')
 
 require("carson.opt")
 require("carson.keymap")
-require("carson.completion")
 require("carson.snippets")
 
 -- insert with CTRL-K in insert mode, e.g. <C-k>fi
